@@ -22,7 +22,7 @@
   color: var(--secondary-green);
 }
 .auth-container {
-  background-image: url('assets/images/auth-bg.png');
+  background-image: url("assets/images/auth-bg.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -55,7 +55,7 @@
   position: relative;
 }
 .input-group::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 40px;
@@ -97,4 +97,16 @@
 }
 a {
   text-decoration: none !important;
+}
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

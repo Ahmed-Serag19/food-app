@@ -1,13 +1,12 @@
-import { useState } from 'react';
-import AuthContainer from '../../../shared/components/AuthContainer/AuthContainer';
-import AuthLogo from '../../../shared/components/AuthLogo/AuthLogo';
-import { CiLock } from 'react-icons/ci';
-import { BsEye, BsEyeSlash } from 'react-icons/bs';
-import AuthButton from '../../../shared/components/AuthButton/AuthButton';
-import { Link } from 'react-router-dom';
-import './Login.css';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { CiMobile3 } from 'react-icons/ci';
+import { useState } from "react";
+import AuthContainer from "../../../shared/components/AuthContainer/AuthContainer";
+import AuthLogo from "../../../shared/components/AuthLogo/AuthLogo";
+import { CiLock, CiMobile3 } from "react-icons/ci";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
+import AuthButton from "../../../shared/components/AuthButton/AuthButton";
+import { Link } from "react-router-dom";
+import "./Login.css";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 type LoginFormInputs = {
   email: string;
@@ -16,6 +15,7 @@ type LoginFormInputs = {
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -25,11 +25,20 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>();
+    trigger,
+    reset,
+  } = useForm<LoginFormInputs>({
+    mode: "onChange",
+  });
 
-  // This function should be called when the form is submitted
-  const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    console.log('Form submitted with data:', data);
+  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    setLoading(true);
+    console.log("Form submitted with data:", data);
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    setLoading(false);
+    reset();
   };
 
   return (
@@ -41,9 +50,7 @@ const Login = () => {
           className="m-auto d-flex flex-column justify-content-center align-content-center w-100"
         >
           <h4>Log In</h4>
-          <p className="text-muted">
-            Welcome Back! Please enter your details
-          </p>
+          <p className="text-muted">Welcome Back! Please enter your details</p>
           <div className="inputs-container d-flex flex-column gap-4 pt-4">
             <div className="input-group">
               <div className="input-group-prepend">
@@ -57,20 +64,18 @@ const Login = () => {
                 placeholder="Enter your E-mail"
                 aria-label="Email"
                 aria-describedby="basic-addon1"
-                {...register('email', {
-                  required: 'Email is required',
+                {...register("email", {
+                  required: "Email is required",
                   pattern: {
-                    value:
-                      /^[a-zA-Z0-9._%+-]{1,30}@[a-zA-Z0-9.-]{1,30}\.[a-zA-Z]{2,}$/,
-                    message: 'Invalid email address',
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email address",
                   },
                 })}
+                onChange={() => trigger("email")}
               />
             </div>
             {errors.email && (
-              <span className="text-danger py-2">
-                {errors.email.message}
-              </span>
+              <span className="text-danger py-2">{errors.email.message}</span>
             )}
             <div className="input-group">
               <div className="input-group-prepend">
@@ -79,36 +84,35 @@ const Login = () => {
                 </span>
               </div>
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 className="form-control"
                 placeholder="Password"
                 aria-label="Password"
                 aria-describedby="basic-addon2"
-                {...register('password', {
-                  required: 'Password is required',
+                {...register("password", {
+                  required: "Password is required",
                   pattern: {
                     value:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,30}$/,
                     message:
-                      'Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be between 6 and 30 characters long',
+                      "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be between 6 and 30 characters long",
                   },
                 })}
+                onChange={() => trigger("password")}
               />
               <div className="input-group-append">
                 <span
                   className="input-group-text text-muted"
                   id="toggle-password"
                   onClick={togglePasswordVisibility}
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                 >
                   {showPassword ? <BsEyeSlash /> : <BsEye />}
                 </span>
               </div>
             </div>
             {errors.password && (
-              <span className="text-danger">
-                {errors.password.message}
-              </span>
+              <span className="text-danger">{errors.password.message}</span>
             )}
             <div className="login-links d-flex justify-content-between mb-3">
               <Link to="/register" className="text-black">
@@ -119,7 +123,7 @@ const Login = () => {
               </Link>
             </div>
           </div>
-          <AuthButton text="Login" type="submit" />
+          <AuthButton text="Login" type="submit" loading={loading} />
         </form>
       </div>
     </AuthContainer>
