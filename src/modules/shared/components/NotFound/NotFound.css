@@ -1,0 +1,46 @@
+.error-404 {
+  background-image: url("../../../../assets/images/error-bg.png");
+  background-repeat: no-repeat;
+  background-size: 67%;
+  background-position-x: right;
+  background-position-y: -150px;
+}
+.error-img-container {
+  right: 150px;
+}
+.error-404 main button {
+  background-color: var(--secondary-green);
+  color: white;
+  padding: 10px 30px;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  transition: 0.5s all;
+}
+.error-404 main button:hover {
+  background-color: var(--primary-green);
+}
+.text-container {
+  padding-left: 150px;
+  padding-top: 100px;
+  line-height: 20px;
+}
+.text-container h2 {
+  font-size: 2.5rem;
+}
+.text-container h4 {
+  font-size: 2rem;
+  font-weight: 400;
+  padding-bottom: 10px;
+}
+.text-container p {
+  font-size: 1rem;
+  font-weight: 400;
+  padding-bottom: 30px;
+}
