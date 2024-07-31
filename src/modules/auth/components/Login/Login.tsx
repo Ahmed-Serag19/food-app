@@ -4,9 +4,10 @@ import AuthLogo from "../../../shared/components/AuthLogo/AuthLogo";
 import { CiLock, CiMobile3 } from "react-icons/ci";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import AuthButton from "../../../shared/components/AuthButton/AuthButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "react-toastify";
 
 type LoginFormInputs = {
   email: string;
@@ -14,6 +15,7 @@ type LoginFormInputs = {
 };
 
 const Login = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -25,20 +27,45 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-    trigger,
     reset,
   } = useForm<LoginFormInputs>({
-    mode: "onChange",
+    mode: "onSubmit",
   });
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setLoading(true);
     console.log("Form submitted with data:", data);
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      await new Promise((resolve, reject) => setTimeout(resolve, 2000));
 
-    setLoading(false);
-    reset();
+      setLoading(false);
+      reset();
+      navigate("/dashboard");
+      toast.success("Login successful!", {
+        position: "top-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } catch (error) {
+      setLoading(false);
+
+      toast.error("Invalid email or password.", {
+        position: "top-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
   };
 
   return (
@@ -71,7 +98,6 @@ const Login = () => {
                     message: "Invalid email address",
                   },
                 })}
-                onChange={() => trigger("email")}
               />
             </div>
             {errors.email && (
@@ -98,7 +124,6 @@ const Login = () => {
                       "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be between 6 and 30 characters long",
                   },
                 })}
-                onChange={() => trigger("password")}
               />
               <div className="input-group-append">
                 <span
