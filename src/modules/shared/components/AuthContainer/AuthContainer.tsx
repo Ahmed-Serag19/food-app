@@ -5,9 +5,8 @@ const AuthContainer: React.FC<React.PropsWithChildren<unknown>> = ({
 }) => {
   return (
     <div className="auth-container">
-      {/* <div className="bg-overlay position-absolute"></div> */}
       <div className="container-fluid bg-overlay">
-        <div className="row vh-100 d-flex align-items-center justify-content-center">
+        <div className="row vh-100 d-flex align-items-center justify-content-center p-3">
           {children}
         </div>
       </div>
