@@ -1,15 +1,17 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
-import Sidebar from '../Sidebar/Sidebar';
+import SidebarComponent from '../SidebarComponent/SidebarComponent';
 
-const MasterLayout = () => {
+type Props = {
+  setAuthToken: (token: string | null) => void;
+};
+const MasterLayout = ({ setAuthToken }: Props) => {
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-3 bg-primary h-100">
-          <Sidebar />
-        </div>
-        <div className="col-9">
+    <div>
+      <div className="d-flex gap-5 ">
+        <SidebarComponent setAuthToken={setAuthToken} />
+
+        <div className="">
           <Navbar />
           <div className="bg-warning">
             <Outlet />

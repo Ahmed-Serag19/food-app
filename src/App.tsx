@@ -19,11 +19,23 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [authToken, setAuthToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('authToken');
+    const token = localStorage.getItem('authToken');
     setAuthToken(token);
+    setIsLoading(false); // Token is checked, stop loading
   }, []);
+
+  const handleLoginSuccess = (token: string) => {
+    setAuthToken(token);
+    localStorage.setItem('authToken', token);
+  };
+
+  if (isLoading) {
+    // Render a loading spinner or nothing while the token is being loaded
+    return <div>Loading...</div>;
+  }
 
   const routes = createBrowserRouter([
     {
@@ -31,8 +43,14 @@ function App() {
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Login /> },
-        { path: 'login', element: <Login /> },
+        {
+          index: true,
+          element: <Login onLoginSuccess={handleLoginSuccess} />,
+        },
+        {
+          path: 'login',
+          element: <Login onLoginSuccess={handleLoginSuccess} />,
+        },
         { path: 'register', element: <Register /> },
         { path: 'forgot-password', element: <ForgotPassword /> },
         { path: 'reset-password', element: <ResetPassword /> },
@@ -42,7 +60,7 @@ function App() {
       path: 'dashboard',
       element: (
         <ProtectedRoute authToken={authToken}>
-          <MasterLayout />
+          <MasterLayout setAuthToken={setAuthToken} />
         </ProtectedRoute>
       ),
       errorElement: <NotFound />,

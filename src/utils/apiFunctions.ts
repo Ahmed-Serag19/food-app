@@ -12,7 +12,7 @@ interface LoginResponse {
 export const handleLogin = async (
   email: string,
   password: string
-): Promise<void> => {
+): Promise<string> => {
   try {
     const response = await api.post<LoginResponse>(
       '/api/v1/Users/Login',
@@ -25,40 +25,13 @@ export const handleLogin = async (
     );
 
     const { token, expiresIn } = response.data;
-    sessionStorage.setItem('authToken', token);
-    sessionStorage.setItem('tokenExpiration', expiresIn);
-    console.log('Login successful:', response.data);
+    localStorage.setItem('authToken', token);
+    localStorage.setItem('tokenExpiration', expiresIn);
+
+    return token;
   } catch (error) {
-    let errorMessage = 'An unexpected error occurred.';
-
-    if (error instanceof AxiosError && error.response) {
-      const responseData = error.response.data;
-
-      if (
-        responseData &&
-        typeof responseData === 'object' &&
-        'message' in responseData
-      ) {
-        errorMessage = (responseData as { message: string }).message;
-      } else if (typeof error.message === 'string') {
-        errorMessage = error.message;
-      }
-    } else if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-
-    toast.error(errorMessage, {
-      position: 'top-left',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'dark',
-    });
-
-    throw new Error(errorMessage);
+    console.error('Error logging in:', error);
+    throw error;
   }
 };
 

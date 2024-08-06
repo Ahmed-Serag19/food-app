@@ -14,8 +14,10 @@ type LoginFormInputs = {
   email: string;
   password: string;
 };
-
-const Login = () => {
+type LoginProps = {
+  onLoginSuccess: (token: string) => void;
+};
+const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -37,9 +39,10 @@ const Login = () => {
     const { email, password } = data;
     setLoading(true);
     try {
-      await handleLogin(email, password);
+      const token = await handleLogin(email, password); // Assuming `handleLogin` returns the token
       setLoading(false);
       reset();
+      onLoginSuccess(token); // Update the authToken state in App
       navigate('/dashboard');
       toast.success('Login successful!', {
         position: 'top-left',
@@ -68,7 +71,7 @@ const Login = () => {
           <p className="text-muted">
             Welcome Back! Please enter your details
           </p>
-          <div className="inputs-container d-flex flex-column gap-4 pt-4">
+          <div className="inputs-container d-flex flex-column gap-2 pt-4">
             <div className="input-group">
               <div className="input-group-prepend">
                 <span className="input-group-text" id="basic-addon1">
@@ -91,7 +94,7 @@ const Login = () => {
               />
             </div>
             {errors.email && (
-              <span className="text-danger py-2">
+              <span className="text-danger pb-4">
                 {errors.email.message}
               </span>
             )}
