@@ -16,15 +16,32 @@ import UsersList from './modules/users/components/UsersList/UsersList';
 import NotFound from './modules/shared/components/NotFound/NotFound';
 import ProtectedRoute from './modules/shared/components/ProtectedRoute/ProtectedRoute';
 import { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
+interface DecodedToken {
+  userId: number;
+  userName: string;
+  userEmail: string;
+  roles: string[];
+  userGroup: string;
+  iat: number;
+  exp: number;
+}
 function App() {
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [userData, setUserData] = useState<DecodedToken | null>(null);
+  console.log(userData);
   useEffect(() => {
     const token = localStorage.getItem('authToken');
-    setAuthToken(token);
-    setIsLoading(false); // Token is checked, stop loading
+    if (token) {
+      const decodedToken = jwtDecode<DecodedToken>(token);
+      setAuthToken(token);
+      setIsLoading(false);
+      setUserData(decodedToken);
+    } else {
+      setIsLoading(true);
+    }
   }, []);
 
   const handleLoginSuccess = (token: string) => {
@@ -33,7 +50,6 @@ function App() {
   };
 
   if (isLoading) {
-    // Render a loading spinner or nothing while the token is being loaded
     return <div>Loading...</div>;
   }
 

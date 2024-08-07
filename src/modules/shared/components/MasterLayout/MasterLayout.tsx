@@ -11,7 +11,7 @@ const MasterLayout = ({ setAuthToken }: Props) => {
       <div className="d-flex gap-5 ">
         <SidebarComponent setAuthToken={setAuthToken} />
 
-        <div className="">
+        <div className="w-100 p-5">
           <Navbar />
           <div className="bg-warning">
             <Outlet />

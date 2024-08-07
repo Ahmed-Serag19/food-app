@@ -38,7 +38,7 @@ export const handleLogin = async (
 /////////////// HandleOtp function
 
 interface SendOtpResponse {
-  success: boolean;
+  message: string;
 }
 
 export const handleForgotPassword = async (
@@ -55,7 +55,7 @@ export const handleForgotPassword = async (
       }
     );
 
-    if (!response.data.success) {
+    if (!response.data.message) {
       throw new Error('Failed to send OTP');
     }
 
