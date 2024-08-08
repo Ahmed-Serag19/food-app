@@ -1,0 +1,9 @@
+.dashboard-header {
+  background-color: #009247;
+  background-image: url('../../../../assets/images/header-circles.svg');
+  border-radius: 15px;
+  padding: 30px;
+}
+.dashboard-header h1 span {
+  color: rgb(205, 205, 205);
+}

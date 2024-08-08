@@ -31,6 +31,7 @@ function App() {
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState<DecodedToken | null>(null);
+
   console.log(userData);
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -40,7 +41,7 @@ function App() {
       setIsLoading(false);
       setUserData(decodedToken);
     } else {
-      setIsLoading(true);
+      setIsLoading(false);
     }
   }, []);
 
@@ -50,7 +51,11 @@ function App() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+        Loading...
+      </div>
+    );
   }
 
   const routes = createBrowserRouter([
@@ -81,8 +86,14 @@ function App() {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Home /> },
-        { path: 'home', element: <Home /> },
+        {
+          index: true,
+          element: <Home userName={userData?.userName} />,
+        },
+        {
+          path: 'home',
+          element: <Home userName={userData?.userName} />,
+        },
         { path: 'recipes-list', element: <RecipesList /> },
         { path: 'categories-list', element: <CategoriesList /> },
         { path: 'users-list', element: <UsersList /> },
