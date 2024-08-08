@@ -7,3 +7,6 @@
 .dashboard-header h1 span {
   color: rgb(205, 205, 205);
 }
+.dashboard-header p {
+  max-width: 75%;
+}

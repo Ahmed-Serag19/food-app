@@ -47,13 +47,13 @@ const SidebarComponent = ({ setAuthToken }: Props) => {
           </MenuItem>
           <MenuItem
             icon={<IoFastFoodOutline />}
-            component={<Link to="/dashboard/categories-list" />}
+            component={<Link to="/dashboard/recipes-list" />}
           >
             Recipes
           </MenuItem>
           <MenuItem
             icon={<LuCalendarDays />}
-            component={<Link to="/dashboard/recipes-list" />}
+            component={<Link to="/dashboard/categories-list" />}
           >
             Categories
           </MenuItem>
