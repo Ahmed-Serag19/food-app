@@ -14,7 +14,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   titleSpan,
 }) => {
   return (
-    <div className="d-flex dashboard-header justify-content-around px-5 align-items-center text-white">
+    <div className="d-flex dashboard-header justify-content-between px-5 align-items-center text-white">
       <div className="header-text-container col-6">
         <h2 className="fw-bolder py-2 fs-2">
           {title}
