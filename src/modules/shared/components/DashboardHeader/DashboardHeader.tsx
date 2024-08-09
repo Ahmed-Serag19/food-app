@@ -28,7 +28,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         {title == 'Welcome ' ? (
           <img className="w-75" src={image} alt={title} />
         ) : (
-          <img width="200px" src={image} alt={title} />
+          <img src={image} alt={title} />
         )}
       </div>
     </div>
