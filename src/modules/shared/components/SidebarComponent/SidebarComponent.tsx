@@ -8,20 +8,25 @@ import { FaUsers } from 'react-icons/fa';
 import { IoFastFoodOutline } from 'react-icons/io5';
 import { LuCalendarDays } from 'react-icons/lu';
 import { FiLogOut } from 'react-icons/fi';
+import PopupModal from '../PopupModal/PopupModal';
 
 type Props = {
   setAuthToken: (token: string | null) => void;
 };
 
 const SidebarComponent = ({ setAuthToken }: Props) => {
+  const [show, setShow] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('tokenExpiration');
     setAuthToken(null);
     navigate('/login');
+    setShow(false);
   };
-  const [collapsed, setCollapsed] = useState(false);
+  const handleClose = () => setShow(false);
   return (
     <div className="sidebar-bg">
       <Sidebar collapsed={collapsed} className="sidebar">
@@ -29,7 +34,7 @@ const SidebarComponent = ({ setAuthToken }: Props) => {
           <button onClick={() => setCollapsed((prev) => !prev)}>
             <img
               src={SidebarHeader}
-              alt=""
+              alt="logo header"
               width={collapsed ? '100px' : '180px'}
             />
           </button>
@@ -59,15 +64,22 @@ const SidebarComponent = ({ setAuthToken }: Props) => {
           </MenuItem>
           <MenuItem
             icon={<FiLogOut />}
-            component={<Link to="/login" />}
             onClick={() => {
-              handleLogout();
+              setShow(true);
             }}
           >
             Logout
           </MenuItem>
         </Menu>
       </Sidebar>
+      <PopupModal
+        show={show}
+        bodyText="Are you sure you want to logout?"
+        buttonText="Logout"
+        title="Logging out?"
+        handleClose={handleClose}
+        propFunction={handleLogout}
+      />
     </div>
   );
 };

@@ -1,0 +1,10 @@
+.modal-header {
+  border-bottom: none;
+}
+.modal-header .btn-close {
+  transition: 0.5s all;
+  background: url('../../../../assets/images/close-modal-btn.png') !important;
+}
+.modal-body img {
+  width: 400px;
+}
