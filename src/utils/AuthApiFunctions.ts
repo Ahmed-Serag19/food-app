@@ -1,6 +1,6 @@
-import { AxiosError } from 'axios';
-import api from './api';
-import { toast } from 'react-toastify';
+import { AxiosError } from "axios";
+import api from "./api";
+import { toast } from "react-toastify";
 
 interface LoginResponse {
   token: string;
@@ -15,22 +15,22 @@ export const handleLogin = async (
 ): Promise<string> => {
   try {
     const response = await api.post<LoginResponse>(
-      '/api/v1/Users/Login',
+      "/api/v1/Users/Login",
       { email, password },
       {
         headers: {
-          Accept: 'application/json',
+          Accept: "application/json",
         },
       }
     );
 
     const { token, expiresIn } = response.data;
-    localStorage.setItem('authToken', token);
-    localStorage.setItem('tokenExpiration', expiresIn);
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("tokenExpiration", expiresIn);
 
     return token;
   } catch (error) {
-    console.error('Error logging in:', error);
+    console.error("Error logging in:", error);
     throw error;
   }
 };
@@ -41,38 +41,36 @@ interface SendOtpResponse {
   message: string;
 }
 
-export const handleForgotPassword = async (
-  email: string
-): Promise<void> => {
+export const handleForgotPassword = async (email: string): Promise<void> => {
   try {
     const response = await api.post<SendOtpResponse>(
-      '/api/v1/Users/Reset/Request',
+      "/api/v1/Users/Reset/Request",
       { email },
       {
         headers: {
-          Accept: 'application/json',
+          Accept: "application/json",
         },
       }
     );
 
     if (!response.data.message) {
-      throw new Error('Failed to send OTP');
+      throw new Error("Failed to send OTP");
     }
 
-    console.log('OTP sent successfully');
+    console.log("OTP sent successfully");
   } catch (error) {
-    let errorMessage = 'An unexpected error occurred.';
+    let errorMessage = "An unexpected error occurred.";
 
     if (error instanceof AxiosError && error.response) {
       const responseData = error.response.data;
 
       if (
         responseData &&
-        typeof responseData === 'object' &&
-        'message' in responseData
+        typeof responseData === "object" &&
+        "message" in responseData
       ) {
         errorMessage = (responseData as { message: string }).message;
-      } else if (typeof error.message === 'string') {
+      } else if (typeof error.message === "string") {
         errorMessage = error.message;
       }
     } else if (error instanceof Error) {
@@ -80,14 +78,14 @@ export const handleForgotPassword = async (
     }
 
     toast.error(errorMessage, {
-      position: 'top-left',
+      position: "top-left",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: 'dark',
+      theme: "dark",
     });
 
     throw new Error(errorMessage);
@@ -108,33 +106,33 @@ export const handleResetPassword = async (
 ): Promise<void> => {
   try {
     const response = await api.post<ResetPasswordResponse>(
-      '/api/v1/Users/Reset',
+      "/api/v1/Users/Reset",
       { email, seed, password, confirmPassword },
       {
         headers: {
-          Accept: 'application/json',
+          Accept: "application/json",
         },
       }
     );
 
     if (!response.data.success) {
-      throw new Error('Failed to reset password');
+      throw new Error("Failed to reset password");
     }
 
-    console.log('Password reset successfully');
+    console.log("Password reset successfully");
   } catch (error) {
-    let errorMessage = 'An unexpected error occurred.';
+    let errorMessage = "An unexpected error occurred.";
 
     if (error instanceof AxiosError && error.response) {
       const responseData = error.response.data;
 
       if (
         responseData &&
-        typeof responseData === 'object' &&
-        'message' in responseData
+        typeof responseData === "object" &&
+        "message" in responseData
       ) {
         errorMessage = (responseData as { message: string }).message;
-      } else if (typeof error.message === 'string') {
+      } else if (typeof error.message === "string") {
         errorMessage = error.message;
       }
     } else if (error instanceof Error) {
@@ -142,14 +140,14 @@ export const handleResetPassword = async (
     }
 
     toast.error(errorMessage, {
-      position: 'top-left',
+      position: "top-left",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: 'dark',
+      theme: "dark",
     });
 
     throw new Error(errorMessage);

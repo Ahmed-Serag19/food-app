@@ -1,7 +1,7 @@
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import WarningImage from '../../../../assets/images/warning-image.svg';
-import './PopupModal.css';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import WarningImage from "../../../../assets/images/warning-image.svg";
+import "./PopupModal.css";
 interface ModalProps {
   propFunction: () => void;
   buttonText: string;
@@ -9,6 +9,7 @@ interface ModalProps {
   show: boolean;
   title?: string;
   handleClose: () => void;
+  loading?: boolean;
 }
 
 function PopupModal({
@@ -18,6 +19,7 @@ function PopupModal({
   show,
   handleClose,
   title,
+  loading = false,
 }: ModalProps) {
   return (
     <>
@@ -32,8 +34,8 @@ function PopupModal({
           <span className="pt-4 pb-2 text-muted">{bodyText}</span>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={propFunction}>
-            {buttonText}
+          <Button variant="danger" onClick={propFunction} disabled={loading}>
+            {loading ? "Processing..." : buttonText}
           </Button>
         </Modal.Footer>
       </Modal>

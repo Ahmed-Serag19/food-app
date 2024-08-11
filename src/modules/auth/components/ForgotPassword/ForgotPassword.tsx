@@ -1,15 +1,15 @@
 // src/components/ForgotPassword/ForgotPassword.tsx
 
-import { useState } from 'react';
-import AuthContainer from '../../../shared/components/AuthContainer/AuthContainer';
-import AuthLogo from '../../../shared/components/AuthLogo/AuthLogo';
-import { CiMobile3 } from 'react-icons/ci';
-import AuthButton from '../../../shared/components/AuthButton/AuthButton';
-import { useNavigate } from 'react-router-dom';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { handleForgotPassword } from '../../../../utils/apiFunctions';
+import { useState } from "react";
+import AuthContainer from "../../../shared/components/AuthContainer/AuthContainer";
+import AuthLogo from "../../../shared/components/AuthLogo/AuthLogo";
+import { CiMobile3 } from "react-icons/ci";
+import AuthButton from "../../../shared/components/AuthButton/AuthButton";
+import { useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { handleForgotPassword } from "../../../../utils/AuthApiFunctions";
 
 type ForgotPasswordInput = {
   email: string;
@@ -24,32 +24,30 @@ const ForgotPassword = () => {
     formState: { errors },
     reset,
   } = useForm<ForgotPasswordInput>({
-    mode: 'onTouched',
+    mode: "onTouched",
   });
 
-  const onSubmit: SubmitHandler<ForgotPasswordInput> = async (
-    data
-  ) => {
+  const onSubmit: SubmitHandler<ForgotPasswordInput> = async (data) => {
     setLoading(true);
 
     try {
       await handleForgotPassword(data.email);
       setLoading(false);
       reset();
-      navigate('/reset-password');
-      toast.success('Check Your Email. OTP is sent', {
-        position: 'top-left',
+      navigate("/reset-password");
+      toast.success("Check Your Email. OTP is sent", {
+        position: "top-left",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'dark',
+        theme: "dark",
       });
     } catch (error) {
       setTimeout(() => {
-        navigate('/register');
+        navigate("/register");
       }, 2500);
     }
   };
@@ -64,8 +62,8 @@ const ForgotPassword = () => {
         >
           <h4>Forgot Your Password?</h4>
           <p className="text-muted">
-            No worries! Please enter your email and we will send a
-            password reset link
+            No worries! Please enter your email and we will send a password
+            reset link
           </p>
           <div className="inputs-container d-flex flex-column gap-4 py-5">
             <div className="input-group">
@@ -80,20 +78,17 @@ const ForgotPassword = () => {
                 placeholder="Enter your E-mail"
                 aria-label="Email"
                 aria-describedby="basic-addon1"
-                {...register('email', {
-                  required: 'Email is required',
+                {...register("email", {
+                  required: "Email is required",
                   pattern: {
-                    value:
-                      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: 'Invalid email address',
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email address",
                   },
                 })}
               />
             </div>
             {errors.email && (
-              <span className="text-danger py-2">
-                {errors.email.message}
-              </span>
+              <span className="text-danger py-2">{errors.email.message}</span>
             )}
           </div>
           <AuthButton text="Submit" type="submit" loading={loading} />
