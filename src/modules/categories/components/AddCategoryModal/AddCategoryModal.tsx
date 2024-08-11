@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { createCategory } from "../../../../utils/CategoriesApiFunctions";
+import React, { useState } from 'react';
+import { Modal, Button, Form, Alert } from 'react-bootstrap';
+import { createCategory } from '../../../../utils/CategoriesApiFunctions';
 
 interface AddCategoryModalProps {
   show: boolean;
@@ -13,7 +13,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
   handleClose,
   onCategoryAdded,
 }) => {
-  const [categoryName, setCategoryName] = useState<string>("");
+  const [categoryName, setCategoryName] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -25,8 +25,9 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
       await createCategory(categoryName);
       onCategoryAdded();
       handleClose();
+      setCategoryName('');
     } catch (err) {
-      setError("Failed to add category. Please try again.");
+      setError('Failed to add category. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -40,10 +41,9 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
       <Modal.Body>
         <Form>
           <Form.Group controlId="formCategoryName">
-            <Form.Label>Category Name</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter category name"
+              placeholder="Category name"
               value={categoryName}
               onChange={(e) => setCategoryName(e.target.value)}
               disabled={loading}
@@ -62,7 +62,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
           onClick={handleSave}
           disabled={loading || !categoryName.trim()}
         >
-          {loading ? "Saving..." : "Save"}
+          {loading ? 'Saving...' : 'Save'}
         </Button>
       </Modal.Footer>
     </Modal>

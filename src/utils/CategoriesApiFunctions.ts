@@ -1,8 +1,7 @@
-import axios, { AxiosError } from "axios";
-import api from "./api";
-import { toast } from "react-toastify";
+import axios, { AxiosError } from 'axios';
+import api from './api';
+import { toast } from 'react-toastify';
 
-// Define the interfaces for the category data
 interface Category {
   id: number;
   name: string;
@@ -35,25 +34,25 @@ export const createCategory = async (
 ): Promise<CreateCategoryResponse> => {
   try {
     const response = await api.post<CreateCategoryResponse>(
-      "/api/v1/Category/",
+      '/api/v1/Category/',
       { name }
     );
 
     // Show success toast notification
-    toast.success("Category created successfully!", {
-      position: "top-left",
+    toast.success('Category created successfully!', {
+      position: 'top-left',
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "dark",
+      theme: 'dark',
     });
 
     return response.data;
   } catch (error) {
-    let errorMessage = "Failed to create category. Please try again.";
+    let errorMessage = 'Failed to create category. Please try again.';
 
     // Narrow the error type
     if (axios.isAxiosError(error)) {
@@ -61,7 +60,7 @@ export const createCategory = async (
       if (
         error.response &&
         error.response.data &&
-        typeof error.response.data.message === "string"
+        typeof error.response.data.message === 'string'
       ) {
         errorMessage = error.response.data.message;
       }
@@ -70,19 +69,19 @@ export const createCategory = async (
       errorMessage = error.message;
     } else {
       // Handle unexpected types of errors
-      errorMessage = "An unexpected error occurred.";
+      errorMessage = 'An unexpected error occurred.';
     }
 
     // Show error toast notification
     toast.error(errorMessage, {
-      position: "top-left",
+      position: 'top-left',
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "dark",
+      theme: 'dark',
     });
 
     throw new Error(errorMessage);
@@ -90,50 +89,57 @@ export const createCategory = async (
 };
 //////////////////// Get Categories Function
 
-export const getCategories = async (): Promise<GetCategoriesResponse> => {
-  try {
-    const response = await api.get<GetCategoriesResponse>("/api/v1/Category/", {
-      headers: {
-        Accept: "application/json",
-      },
-    });
+export const getCategories =
+  async (): Promise<GetCategoriesResponse> => {
+    try {
+      const response = await api.get<GetCategoriesResponse>(
+        '/api/v1/Category/',
+        {
+          headers: {
+            Accept: 'application/json',
+          },
+        }
+      );
 
-    return response.data;
-  } catch (error) {
-    handleApiError(error, "Failed to fetch categories.");
-    throw error;
-  }
-};
+      return response.data;
+    } catch (error) {
+      handleApiError(error, 'Failed to fetch categories.');
+      throw error;
+    }
+  };
 
 //////////////////// Delete Category Function
 
 export const deleteCategory = async (id: number): Promise<void> => {
   try {
-    await api.delete<DeleteCategoryResponse>(`/api/v1/Category/${id}`, {
-      headers: {
-        Accept: "application/json",
-      },
-    });
+    await api.delete<DeleteCategoryResponse>(
+      `/api/v1/Category/${id}`,
+      {
+        headers: {
+          Accept: 'application/json',
+        },
+      }
+    );
 
-    toast.success("Category deleted successfully!", {
-      position: "top-left",
+    toast.success('Category deleted successfully!', {
+      position: 'top-left',
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "dark",
+      theme: 'dark',
     });
   } catch (error) {
-    handleApiError(error, "Failed to delete category.");
+    handleApiError(error, 'Failed to delete category.');
     throw error;
   }
 };
 
 //////////////////// Helper Function to Handle Errors
 
-const handleApiError = (error: any, defaultMessage: string) => {
+const handleApiError = (error: unknown, defaultMessage: string) => {
   let errorMessage = defaultMessage;
 
   if (error instanceof AxiosError && error.response) {
@@ -141,11 +147,11 @@ const handleApiError = (error: any, defaultMessage: string) => {
 
     if (
       responseData &&
-      typeof responseData === "object" &&
-      "message" in responseData
+      typeof responseData === 'object' &&
+      'message' in responseData
     ) {
       errorMessage = (responseData as { message: string }).message;
-    } else if (typeof error.message === "string") {
+    } else if (typeof error.message === 'string') {
       errorMessage = error.message;
     }
   } else if (error instanceof Error) {
@@ -153,13 +159,13 @@ const handleApiError = (error: any, defaultMessage: string) => {
   }
 
   toast.error(errorMessage, {
-    position: "top-left",
+    position: 'top-left',
     autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "dark",
+    theme: 'dark',
   });
 };

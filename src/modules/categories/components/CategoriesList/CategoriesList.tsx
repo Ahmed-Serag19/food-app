@@ -1,17 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Table, Dropdown, Button, Container, Row, Col } from "react-bootstrap";
-import DashboardHeader from "../../../shared/components/DashboardHeader/DashboardHeader";
-import UserHeaderImage from "../../../../assets/images/header-recipes.svg";
-import CustomToggle from "./CustomToggle";
+import React, { useState, useEffect } from 'react';
+import {
+  Table,
+  Dropdown,
+  Button,
+  Container,
+  Row,
+  Col,
+} from 'react-bootstrap';
+import DashboardHeader from '../../../shared/components/DashboardHeader/DashboardHeader';
+import UserHeaderImage from '../../../../assets/images/header-recipes.svg';
+import CustomToggle from './CustomToggle';
 import {
   getCategories,
   deleteCategory,
-} from "../../../../utils/CategoriesApiFunctions";
-import PopupModal from "../../../shared/components/PopupModal/PopupModal";
-import AddCategoryModal from "../AddCategoryModal/AddCategoryModal";
-import WarningImage from "../../../../assets/images/warning-image.svg"; // Import the warning image
+} from '../../../../utils/CategoriesApiFunctions';
+import PopupModal from '../../../shared/components/PopupModal/PopupModal';
+import AddCategoryModal from '../AddCategoryModal/AddCategoryModal';
+import WarningImage from '../../../../assets/images/warning-image.svg'; // Import the warning image
 
 interface Category {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -20,10 +28,11 @@ const CategoriesList: React.FC = () => {
   const [headers, setHeaders] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    null
-  );
+  const [showAddCategoryModal, setShowAddCategoryModal] =
+    useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<
+    number | null
+  >(null);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false); // State to handle loading during delete
 
   const handleCloseDeleteModal = () => {
@@ -35,8 +44,10 @@ const CategoriesList: React.FC = () => {
     setShowDeleteModal(true);
   };
 
-  const handleCloseAddCategoryModal = () => setShowAddCategoryModal(false);
-  const handleShowAddCategoryModal = () => setShowAddCategoryModal(true);
+  const handleCloseAddCategoryModal = () =>
+    setShowAddCategoryModal(false);
+  const handleShowAddCategoryModal = () =>
+    setShowAddCategoryModal(true);
 
   const fetchCategories = async () => {
     setLoading(true);
@@ -47,7 +58,7 @@ const CategoriesList: React.FC = () => {
         setHeaders(Object.keys(response.data[0]));
       }
     } catch (error) {
-      console.error("Failed to load categories", error);
+      console.error('Failed to load categories', error);
     } finally {
       setLoading(false);
     }
@@ -65,7 +76,7 @@ const CategoriesList: React.FC = () => {
         fetchCategories(); // Refresh categories after deletion
         handleCloseDeleteModal();
       } catch (error) {
-        console.error("Failed to delete category", error);
+        console.error('Failed to delete category', error);
       } finally {
         setDeleteLoading(false); // Stop loading
       }
@@ -89,7 +100,9 @@ const CategoriesList: React.FC = () => {
           <Col>
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <h5 className="font-semibold mt-6">Categories Table Details</h5>
+                <h5 className="font-semibold mt-6">
+                  Categories Table Details
+                </h5>
                 <p className="mb-4">You can check all details</p>
               </div>
               <div className="d-flex">
@@ -112,7 +125,7 @@ const CategoriesList: React.FC = () => {
                   src={WarningImage}
                   alt="No Data"
                   className="mb-4"
-                  style={{ maxWidth: "300px" }}
+                  style={{ maxWidth: '300px' }}
                 />
                 <p>No Data!</p>
               </div>
@@ -122,7 +135,8 @@ const CategoriesList: React.FC = () => {
                   <tr>
                     {headers.map((header, index) => (
                       <th key={index}>
-                        {header.charAt(0).toUpperCase() + header.slice(1)}
+                        {header.charAt(0).toUpperCase() +
+                          header.slice(1)}
                       </th>
                     ))}
                     <th className="text-center">Actions</th>
@@ -141,10 +155,16 @@ const CategoriesList: React.FC = () => {
                             id="dropdown-custom-components"
                           />
                           <Dropdown.Menu>
-                            <Dropdown.Item href="#">View</Dropdown.Item>
-                            <Dropdown.Item href="#">Edit</Dropdown.Item>
+                            <Dropdown.Item href="#">
+                              View
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#">
+                              Edit
+                            </Dropdown.Item>
                             <Dropdown.Item
-                              onClick={() => handleShowDeleteModal(category.id)}
+                              onClick={() =>
+                                handleShowDeleteModal(category.id)
+                              }
                             >
                               Delete
                             </Dropdown.Item>
