@@ -47,7 +47,7 @@ const UsersList: React.FC = () => {
   const handleCloseDeleteModal = () => {
     if (!deleteLoading) setShowDeleteModal(false);
   };
-
+  console.log(users);
   const handleShowDeleteModal = (id: number) => {
     setSelectedUserId(id);
     setShowDeleteModal(true);
@@ -60,13 +60,12 @@ const UsersList: React.FC = () => {
       setUsers(response.data);
       if (response.data.length > 0) {
         setHeaders([
-          'id',
-          'userName',
+          'Username',
           'email',
           'country',
-          'phoneNumber',
-          'group.name',
-          'creationDate',
+          'Phone number',
+          'Group',
+          'Creation date',
         ]);
       }
     } catch (error) {
@@ -157,7 +156,6 @@ const UsersList: React.FC = () => {
                 <tbody>
                   {users.map((user, rowIndex) => (
                     <tr key={rowIndex}>
-                      <td>{user.id}</td>
                       <td>{user.userName}</td>
                       <td>{user.email}</td>
                       <td>{user.country}</td>
@@ -178,16 +176,18 @@ const UsersList: React.FC = () => {
                             <Dropdown.Item href="#">
                               View
                             </Dropdown.Item>
-                            <Dropdown.Item href="#">
-                              Edit
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() =>
-                                handleShowDeleteModal(user.id)
-                              }
-                            >
-                              Delete
-                            </Dropdown.Item>
+                            {user?.group.name === 'SystemUser' && (
+                              <Dropdown.Item
+                                onClick={() =>
+                                  handleShowDeleteModal(user.id)
+                                }
+                                disabled={
+                                  user?.group.name === 'SystemUser'
+                                }
+                              >
+                                Delete
+                              </Dropdown.Item>
+                            )}
                           </Dropdown.Menu>
                         </Dropdown>
                       </td>
@@ -210,7 +210,6 @@ const UsersList: React.FC = () => {
         loading={deleteLoading}
       />
 
-      {/* Uncomment when the AddUserModal is ready */}
       {/* <AddUserModal
         show={showAddUserModal}
         handleClose={handleCloseAddUserModal}
