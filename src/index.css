@@ -22,7 +22,7 @@
   color: var(--secondary-green);
 }
 .auth-container {
-  background-image: url("assets/images/auth-bg.png");
+  background-image: url('assets/images/auth-bg.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -55,7 +55,7 @@
   position: relative;
 }
 .input-group::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 40px;
@@ -111,10 +111,14 @@ a {
   }
 }
 table th {
-  background-color: rgb(145, 145, 145) !important;
+  background-color: rgb(218, 218, 218) !important;
 
   padding: 25px 10px !important;
 }
 .call-to-action-button:hover {
-  background-color: #66b975;
+  background-color: #66b975 !important;
+  color: rgb(32, 32, 32) !important;
+}
+.call-to-action-button {
+  transition: 0.3s all;
 }

@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface CallToActionCardProps {
   title: string;
@@ -17,11 +17,16 @@ const CallToActionCard: React.FC<CallToActionCardProps> = ({
   return (
     <div style={styles.card}>
       <div>
-        <h2>{title}</h2>
+        <h3>{title}</h3>
         <p>{description}</p>
       </div>
-      <Link className="call-to-action-button" to={linkTo} style={styles.button}>
-        {buttonText} →
+      <Link to={linkTo}>
+        <button
+          className="call-to-action-button"
+          style={styles.button}
+        >
+          {buttonText} →
+        </button>
       </Link>
     </div>
   );
@@ -29,23 +34,24 @@ const CallToActionCard: React.FC<CallToActionCardProps> = ({
 
 const styles = {
   card: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "40px",
-    backgroundColor: "#f0fff0",
-    borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '40px',
+    backgroundColor: '#f0fff0',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
 
-    margin: "20px auto",
+    margin: '20px auto',
   },
   button: {
-    display: "inline-block",
-    padding: "15px 50px",
-    backgroundColor: "#009447",
-    color: "#fff",
-    textDecoration: "none",
-    borderRadius: "5px",
+    display: 'inline-block',
+    padding: '15px 50px',
+    backgroundColor: '#009447',
+    color: '#fff',
+    textDecoration: 'none',
+    borderRadius: '5px',
+    border: 'none',
   },
 };
 

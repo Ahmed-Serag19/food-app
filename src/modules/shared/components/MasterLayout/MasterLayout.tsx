@@ -8,7 +8,7 @@ type Props = {
 const MasterLayout = ({ setAuthToken }: Props) => {
   return (
     <div>
-      <div className="d-flex gap-3">
+      <div className="d-flex gap-3 ">
         <SidebarComponent setAuthToken={setAuthToken} />
 
         <div className="w-100 px-3 py-4">

@@ -20,7 +20,7 @@ const Home: React.FC<HomeProps> = ({ userName }) => {
       <div>
         <CallToActionCard
           buttonText="Fill Recipes"
-          linkTo="/dashboard/recipes"
+          linkTo="/dashboard/add-recipe"
           title="Fill the Recipes !"
           description="you can now fill the meals easily using the table and form , click here and sill it with the table !"
         />

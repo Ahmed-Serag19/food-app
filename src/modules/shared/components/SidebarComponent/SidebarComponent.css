@@ -1,6 +1,14 @@
 .sidebar-bg {
   background-color: white;
   border: none;
+  position: relative;
+  height: 100%;
+}
+#ps-sidebar-root-test-id {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
 }
 .sidebar button {
   background-color: rgba(31, 38, 62, 1);
@@ -24,8 +32,6 @@
   justify-content: center;
 }
 .sidebar {
-  height: 100vh;
-
   border: none !important;
   color: white;
 }

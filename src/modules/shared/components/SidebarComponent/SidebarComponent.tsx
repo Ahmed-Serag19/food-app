@@ -12,7 +12,7 @@ import PopupModal from '../PopupModal/PopupModal';
 
 type Props = {
   setAuthToken: (token: string | null) => void;
-};
+}
 
 const SidebarComponent = ({ setAuthToken }: Props) => {
   const [show, setShow] = useState(false);
