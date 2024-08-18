@@ -1,21 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Table,
-  Dropdown,
-  Button,
-  Container,
-  Row,
-  Col,
-} from 'react-bootstrap';
-import DashboardHeader from '../../../shared/components/DashboardHeader/DashboardHeader';
-import UserHeaderImage from '../../../../assets/images/header-recipes.svg';
-import {
-  getUsers,
-  deleteUser,
-} from '../../../../utils/UsersApiFunctions';
-import PopupModal from '../../../shared/components/PopupModal/PopupModal';
-import WarningImage from '../../../../assets/images/warning-image.svg';
-import CustomToggle from '../../../categories/components/CategoriesList/CustomToggle';
+import React, { useState, useEffect } from "react";
+import { Table, Dropdown, Button, Container, Row, Col } from "react-bootstrap";
+import DashboardHeader from "../../../shared/components/DashboardHeader/DashboardHeader";
+import UserHeaderImage from "../../../../assets/images/header-recipes.svg";
+import { getUsers, deleteUser } from "../../../../utils/UsersApiFunctions";
+import PopupModal from "../../../shared/components/PopupModal/PopupModal";
+import WarningImage from "../../../../assets/images/warning-image.svg";
+import CustomToggle from "../../../categories/components/CategoriesList/CustomToggle";
 
 interface User {
   id: number;
@@ -39,9 +29,7 @@ const UsersList: React.FC = () => {
   const [headers, setHeaders] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(
-    null
-  );
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const handleCloseDeleteModal = () => {
@@ -60,17 +48,16 @@ const UsersList: React.FC = () => {
       setUsers(response.data);
       if (response.data.length > 0) {
         setHeaders([
-          'id',
-          'userName',
-          'email',
-          'country',
-          'phoneNumber',
-          'group.name',
-          'creationDate',
+          "Username",
+          "Email",
+          "Country",
+          "Phone number",
+          "Group",
+          "Creation date",
         ]);
       }
     } catch (error) {
-      console.error('Failed to load users', error);
+      console.error("Failed to load users", error);
     } finally {
       setLoading(false);
     }
@@ -88,7 +75,7 @@ const UsersList: React.FC = () => {
         fetchUsers();
         handleCloseDeleteModal();
       } catch (error) {
-        console.error('Failed to delete user', error);
+        console.error("Failed to delete user", error);
       } finally {
         setDeleteLoading(false);
       }
@@ -112,9 +99,7 @@ const UsersList: React.FC = () => {
           <Col>
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <h5 className="font-semibold mt-6">
-                  Users Table Details
-                </h5>
+                <h5 className="font-semibold mt-6">Users Table Details</h5>
                 <p className="mb-4">You can check all user details</p>
               </div>
               <div className="d-flex">
@@ -137,18 +122,17 @@ const UsersList: React.FC = () => {
                   src={WarningImage}
                   alt="No Data"
                   className="mb-4"
-                  style={{ maxWidth: '300px' }}
+                  style={{ maxWidth: "300px" }}
                 />
                 <p>No Data!</p>
               </div>
             ) : (
-              <Table bordered hover>
+              <Table hover>
                 <thead>
                   <tr>
                     {headers.map((header, index) => (
-                      <th key={index}>
-                        {header.charAt(0).toUpperCase() +
-                          header.slice(1)}
+                      <th key={index} id="table-header">
+                        {header.charAt(0).toUpperCase() + header.slice(1)}
                       </th>
                     ))}
                     <th className="text-center">Actions</th>
@@ -157,16 +141,13 @@ const UsersList: React.FC = () => {
                 <tbody>
                   {users.map((user, rowIndex) => (
                     <tr key={rowIndex}>
-                      <td>{user.id}</td>
                       <td>{user.userName}</td>
                       <td>{user.email}</td>
                       <td>{user.country}</td>
                       <td>{user.phoneNumber}</td>
                       <td>{user.group.name}</td>
                       <td>
-                        {new Date(
-                          user.creationDate
-                        ).toLocaleDateString()}
+                        {new Date(user.creationDate).toLocaleDateString()}
                       </td>
                       <td className="text-center">
                         <Dropdown align="end">
@@ -175,19 +156,15 @@ const UsersList: React.FC = () => {
                             id="dropdown-custom-components"
                           />
                           <Dropdown.Menu>
-                            <Dropdown.Item href="#">
-                              View
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#">
-                              Edit
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() =>
-                                handleShowDeleteModal(user.id)
-                              }
-                            >
-                              Delete
-                            </Dropdown.Item>
+                            <Dropdown.Item href="#">View</Dropdown.Item>
+
+                            {user.group.name === "SystemUser" && (
+                              <Dropdown.Item
+                                onClick={() => handleShowDeleteModal(user.id)}
+                              >
+                                Delete
+                              </Dropdown.Item>
+                            )}
                           </Dropdown.Menu>
                         </Dropdown>
                       </td>

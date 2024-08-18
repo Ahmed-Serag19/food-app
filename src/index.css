@@ -110,3 +110,11 @@ a {
     transform: rotate(360deg);
   }
 }
+table th {
+  background-color: rgb(145, 145, 145) !important;
+
+  padding: 25px 10px !important;
+}
+.call-to-action-button:hover {
+  background-color: #66b975;
+}
