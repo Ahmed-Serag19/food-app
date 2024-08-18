@@ -1,22 +1,20 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom';
-import './App.css';
-import AuthLayout from './modules/shared/components/AuthLayout/AuthLayout';
-import Login from './modules/auth/components/Login/Login';
-import Register from './modules/auth/components/Register/Register';
-import ForgotPassword from './modules/auth/components/ForgotPassword/ForgotPassword';
-import ResetPassword from './modules/auth/components/ResetPassword/ResetPassword';
-import MasterLayout from './modules/shared/components/MasterLayout/MasterLayout';
-import Home from './modules/home/components/Home/Home';
-import RecipesList from './modules/recipes/components/RecipesList/RecipesList';
-import CategoriesList from './modules/categories/components/CategoriesList/CategoriesList';
-import UsersList from './modules/users/components/UsersList/UsersList';
-import NotFound from './modules/shared/components/NotFound/NotFound';
-import ProtectedRoute from './modules/shared/components/ProtectedRoute/ProtectedRoute';
-import { useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./App.css";
+import AuthLayout from "./modules/shared/components/AuthLayout/AuthLayout";
+import Login from "./modules/auth/components/Login/Login";
+import Register from "./modules/auth/components/Register/Register";
+import ForgotPassword from "./modules/auth/components/ForgotPassword/ForgotPassword";
+import ResetPassword from "./modules/auth/components/ResetPassword/ResetPassword";
+import MasterLayout from "./modules/shared/components/MasterLayout/MasterLayout";
+import Home from "./modules/home/components/Home/Home";
+import RecipesList from "./modules/recipes/components/RecipesList/RecipesList";
+import CategoriesList from "./modules/categories/components/CategoriesList/CategoriesList";
+import UsersList from "./modules/users/components/UsersList/UsersList";
+import NotFound from "./modules/shared/components/NotFound/NotFound";
+import ProtectedRoute from "./modules/shared/components/ProtectedRoute/ProtectedRoute";
+import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import AddRecipe from "./modules/recipes/components/AddRecipe/AddRecipe";
 
 interface DecodedToken {
   userId: number;
@@ -34,7 +32,7 @@ function App() {
 
   console.log(userData);
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem("authToken");
     if (token) {
       const decodedToken = jwtDecode<DecodedToken>(token);
       setAuthToken(token);
@@ -47,7 +45,7 @@ function App() {
 
   const handleLoginSuccess = (token: string) => {
     setAuthToken(token);
-    localStorage.setItem('authToken', token);
+    localStorage.setItem("authToken", token);
   };
 
   if (isLoading) {
@@ -60,7 +58,7 @@ function App() {
 
   const routes = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
@@ -69,16 +67,16 @@ function App() {
           element: <Login onLoginSuccess={handleLoginSuccess} />,
         },
         {
-          path: 'login',
+          path: "login",
           element: <Login onLoginSuccess={handleLoginSuccess} />,
         },
-        { path: 'register', element: <Register /> },
-        { path: 'forgot-password', element: <ForgotPassword /> },
-        { path: 'reset-password', element: <ResetPassword /> },
+        { path: "register", element: <Register /> },
+        { path: "forgot-password", element: <ForgotPassword /> },
+        { path: "reset-password", element: <ResetPassword /> },
       ],
     },
     {
-      path: 'dashboard',
+      path: "dashboard",
       element: (
         <ProtectedRoute authToken={authToken}>
           <MasterLayout setAuthToken={setAuthToken} />
@@ -91,12 +89,13 @@ function App() {
           element: <Home userName={userData?.userName} />,
         },
         {
-          path: 'home',
+          path: "home",
           element: <Home userName={userData?.userName} />,
         },
-        { path: 'recipes-list', element: <RecipesList /> },
-        { path: 'categories-list', element: <CategoriesList /> },
-        { path: 'users-list', element: <UsersList /> },
+        { path: "recipes-list", element: <RecipesList /> },
+        { path: "add-recipe", element: <AddRecipe /> },
+        { path: "categories-list", element: <CategoriesList /> },
+        { path: "users-list", element: <UsersList /> },
       ],
     },
   ]);

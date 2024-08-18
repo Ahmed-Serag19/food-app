@@ -16,12 +16,14 @@ const CallToActionCard: React.FC<CallToActionCardProps> = ({
 }) => {
   return (
     <div style={styles.card}>
-      <div>
-        <h2>{title}</h2>
+      <div className="cto-text-container">
+        <h4>{title}</h4>
         <p>{description}</p>
       </div>
-      <Link className="call-to-action-button" to={linkTo} style={styles.button}>
-        {buttonText} →
+      <Link to={linkTo}>
+        <button style={styles.button} className="call-to-action-button">
+          {buttonText} →
+        </button>
       </Link>
     </div>
   );
@@ -36,12 +38,11 @@ const styles = {
     backgroundColor: "#f0fff0",
     borderRadius: "8px",
     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-
     margin: "20px auto",
   },
   button: {
     display: "inline-block",
-    padding: "15px 50px",
+    padding: "10px 45px",
     backgroundColor: "#009447",
     color: "#fff",
     textDecoration: "none",

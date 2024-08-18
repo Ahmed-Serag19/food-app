@@ -116,5 +116,23 @@ table th {
   padding: 25px 10px !important;
 }
 .call-to-action-button:hover {
-  background-color: #66b975;
+  background-color: #66b975 !important;
+  color: black !important;
+}
+.call-to-action-button {
+  border: none !important;
+  transition: 0.3s all;
+}
+#ps-sidebar-container-test-id {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+.sidebar-bg {
+  position: relative;
+  height: 100%;
+}
+.cto-text-container {
+  max-width: 500px;
 }
