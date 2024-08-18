@@ -1,13 +1,19 @@
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import api from "./api";
 import { toast } from "react-toastify";
 
+export interface GetCategoriesResponse {
+  data: Category[];
+  totalNumberOfRecords: number;
+  totalNumberOfPages: number;
+}
 export interface Tag {
   id: number;
   name: string;
   creationDate: string;
   modificationDate: string;
 }
+
 export interface Category {
   id: number;
   name: string;
@@ -15,12 +21,17 @@ export interface Category {
   modificationDate: string;
 }
 
-export interface GetCategoriesResponse {
-  pageNumber: number;
-  pageSize: number;
-  data: Category[];
-  totalNumberOfRecords: number;
-  totalNumberOfPages: number;
+export interface CreateRecipeResponse {
+  id: number;
+  name: string;
+}
+export interface RecipeFormData {
+  name: string;
+  description: string;
+  price: string;
+  tagId: string;
+  categoriesIds: string[];
+  recipeImage: File | null;
 }
 //////////////////// Get Tags Function
 
@@ -32,7 +43,7 @@ export const getTags = async (): Promise<Tag[]> => {
       },
     });
 
-    return response.data;
+    return response.data; // Now it returns Tag[] directly
   } catch (error) {
     handleApiError(error, "Failed to fetch tags.");
     throw error;
@@ -41,19 +52,13 @@ export const getTags = async (): Promise<Tag[]> => {
 
 //////////////////// Get Categories Function
 
-export const getCategories = async (
-  pageSize: number,
-  pageNumber: number
-): Promise<GetCategoriesResponse> => {
+export const getCategories = async (): Promise<GetCategoriesResponse> => {
   try {
-    const response = await api.get<GetCategoriesResponse>(
-      `/api/v1/Category/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
-      {
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    );
+    const response = await api.get<GetCategoriesResponse>(`/api/v1/Category/`, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
 
     // Check if the data array is empty and handle it
     if (!response.data.data.length) {
@@ -76,6 +81,77 @@ export const getCategories = async (
   }
 };
 
+//////////////////// Create Recipe Function
+
+export const createRecipe = async (
+  formData: RecipeFormData
+): Promise<CreateRecipeResponse> => {
+  try {
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("description", formData.description);
+    data.append("price", formData.price);
+    data.append("tagId", formData.tagId);
+    if (formData.recipeImage) {
+      data.append("recipeImage", formData.recipeImage);
+    }
+
+    formData.categoriesIds.forEach((categoryId: string) => {
+      data.append("categoriesIds", categoryId);
+    });
+
+    const response = await api.post<CreateRecipeResponse>(
+      "/api/v1/Recipe/",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    toast.success("Recipe created successfully!", {
+      position: "top-left",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+
+    return response.data;
+  } catch (error) {
+    handleApiError(error, "Failed to create recipe.");
+    throw error;
+  }
+};
+
+//////////////////// Get and Delete Recipe Functions
+
+export const getRecipes = async () => {
+  try {
+    const response = await api.get("/api/v1/Recipe/", {
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    toast.error("Failed to load recipes");
+    throw error;
+  }
+};
+export const deleteRecipe = async (id: number) => {
+  try {
+    await api.delete(`/api/v1/Recipe/${id}`);
+    toast.success("Recipe deleted successfully");
+  } catch (error) {
+    toast.error("Failed to delete recipe");
+    throw error;
+  }
+};
 //////////////////// Helper Function to Handle Errors
 
 const handleApiError = (error: unknown, defaultMessage: string) => {

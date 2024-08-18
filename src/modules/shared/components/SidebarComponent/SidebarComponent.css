@@ -1,6 +1,7 @@
 .sidebar-bg {
   background-color: white;
   border: none;
+  height: 100%;
 }
 .sidebar button {
   background-color: rgba(31, 38, 62, 1);

@@ -136,3 +136,11 @@ table th {
 .cto-text-container {
   max-width: 500px;
 }
+.side {
+  position: relative;
+  height: inherit;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
