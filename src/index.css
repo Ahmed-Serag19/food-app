@@ -117,37 +117,17 @@ table th {
 }
 .call-to-action-button:hover {
   background-color: #66b975 !important;
-<<<<<<< HEAD
-  color: rgb(32, 32, 32) !important;
-}
-.call-to-action-button {
-  transition: 0.3s all;
-=======
   color: black !important;
 }
 .call-to-action-button {
   border: none !important;
   transition: 0.3s all;
 }
-#ps-sidebar-container-test-id {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
+
+.ps-sidebar-container {
+  height: 100vh !important;
 }
-.sidebar-bg {
-  position: relative;
-  height: 100%;
-}
+
 .cto-text-container {
   max-width: 500px;
-}
-.side {
-  position: relative;
-  height: inherit;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
->>>>>>> abc5de60bdf12582ebad8a0399e04dffbf288070
 }
