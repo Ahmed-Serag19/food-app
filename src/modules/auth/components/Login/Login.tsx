@@ -131,7 +131,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               <span className="text-danger">{errors.password.message}</span>
             )}
             <div className="login-links d-flex justify-content-between mb-3">
-              <Link to="/register" className="text-black">
+              <Link to="/register" className="primary-green">
                 Register Now?
               </Link>
               <Link to="/forgot-password" className="primary-green">

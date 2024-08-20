@@ -30,7 +30,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState<DecodedToken | null>(null);
 
-  console.log(userData);
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {

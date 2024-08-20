@@ -33,6 +33,7 @@ const ForgotPassword = () => {
     try {
       await handleForgotPassword(data.email);
       setLoading(false);
+
       reset();
       navigate("/reset-password");
       toast.success("Check Your Email. OTP is sent", {

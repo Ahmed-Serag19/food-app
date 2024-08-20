@@ -45,7 +45,6 @@ const ResetPassword = () => {
 
   const onSubmit: SubmitHandler<ResetPasswordFormInputs> = async (data) => {
     setLoading(true);
-    console.log("Form submitted with data:", data);
 
     try {
       await handleResetPassword(

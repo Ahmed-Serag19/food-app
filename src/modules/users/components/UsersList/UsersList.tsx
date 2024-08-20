@@ -35,7 +35,7 @@ const UsersList: React.FC = () => {
   const handleCloseDeleteModal = () => {
     if (!deleteLoading) setShowDeleteModal(false);
   };
-  console.log(users);
+
   const handleShowDeleteModal = (id: number) => {
     setSelectedUserId(id);
     setShowDeleteModal(true);

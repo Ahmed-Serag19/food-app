@@ -45,7 +45,7 @@ export const handleForgotPassword = async (email: string): Promise<void> => {
   try {
     const response = await api.post<SendOtpResponse>(
       "/api/v1/Users/Reset/Request",
-      { email },
+      { email: email },
       {
         headers: {
           Accept: "application/json",
@@ -56,8 +56,6 @@ export const handleForgotPassword = async (email: string): Promise<void> => {
     if (!response.data.message) {
       throw new Error("Failed to send OTP");
     }
-
-    console.log("OTP sent successfully");
   } catch (error) {
     let errorMessage = "An unexpected error occurred.";
 
@@ -118,8 +116,6 @@ export const handleResetPassword = async (
     if (!response.data.success) {
       throw new Error("Failed to reset password");
     }
-
-    console.log("Password reset successfully");
   } catch (error) {
     let errorMessage = "An unexpected error occurred.";
 
