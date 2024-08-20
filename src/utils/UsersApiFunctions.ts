@@ -1,6 +1,6 @@
-import { AxiosError } from 'axios';
-import api from './api';
-import { toast } from 'react-toastify';
+import { AxiosError } from "axios";
+import api from "./api";
+import { toast } from "react-toastify";
 
 interface User {
   id: number;
@@ -22,7 +22,7 @@ interface User {
 interface GetUsersResponse {
   pageNumber: number;
   pageSize: number;
-  data: User[]; // Adjusted to match the user structure
+  data: User[];
   totalNumberOfRecords: number;
   totalNumberOfPages: number;
 }
@@ -36,26 +36,23 @@ interface DeleteUserResponse {
 export const getUsers = async (
   pageNumber: number = 1,
   pageSize: number = 10,
-  filter: string = ''
+  filter: string = ""
 ): Promise<GetUsersResponse> => {
   try {
-    const response = await api.get<GetUsersResponse>(
-      '/api/v1/Users/',
-      {
-        headers: {
-          Accept: 'application/json',
-        },
-        params: {
-          pageNumber,
-          pageSize,
-          filter,
-        },
-      }
-    );
+    const response = await api.get<GetUsersResponse>("/api/v1/Users/", {
+      headers: {
+        Accept: "application/json",
+      },
+      params: {
+        pageNumber,
+        pageSize,
+        filter,
+      },
+    });
 
     return response.data;
   } catch (error) {
-    handleApiError(error, 'Failed to fetch users.');
+    handleApiError(error, "Failed to fetch users.");
     throw error;
   }
 };
@@ -66,23 +63,23 @@ export const deleteUser = async (id: number): Promise<void> => {
   try {
     await api.delete<DeleteUserResponse>(`/api/v1/Users/${id}`, {
       headers: {
-        Accept: 'application/json',
+        Accept: "application/json",
       },
     });
 
     // Show success toast notification
-    toast.success('User deleted successfully!', {
-      position: 'top-left',
+    toast.success("User deleted successfully!", {
+      position: "top-left",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: 'dark',
+      theme: "dark",
     });
   } catch (error) {
-    handleApiError(error, 'Failed to delete user.');
+    handleApiError(error, "Failed to delete user.");
     throw error;
   }
 };
@@ -97,11 +94,11 @@ const handleApiError = (error: unknown, defaultMessage: string) => {
 
     if (
       responseData &&
-      typeof responseData === 'object' &&
-      'message' in responseData
+      typeof responseData === "object" &&
+      "message" in responseData
     ) {
       errorMessage = (responseData as { message: string }).message;
-    } else if (typeof error.message === 'string') {
+    } else if (typeof error.message === "string") {
       errorMessage = error.message;
     }
   } else if (error instanceof Error) {
@@ -109,13 +106,13 @@ const handleApiError = (error: unknown, defaultMessage: string) => {
   }
 
   toast.error(errorMessage, {
-    position: 'top-left',
+    position: "top-left",
     autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: 'dark',
+    theme: "dark",
   });
 };
