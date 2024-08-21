@@ -13,15 +13,11 @@ import CustomToggle from './CustomToggle';
 import {
   getCategories,
   deleteCategory,
+  Category,
 } from '../../../../utils/CategoriesApiFunctions';
 import PopupModal from '../../../shared/components/PopupModal/PopupModal';
 import AddCategoryModal from '../AddCategoryModal/AddCategoryModal';
 import WarningImage from '../../../../assets/images/warning-image.svg'; // Import the warning image
-
-interface Category {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
 
 const CategoriesList: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -33,10 +29,13 @@ const CategoriesList: React.FC = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<
     number | null
   >(null);
-  const [deleteLoading, setDeleteLoading] = useState<boolean>(false); // State to handle loading during delete
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
+  const [categoryToEdit, setCategoryToEdit] = useState<
+    Category | null | undefined
+  >(undefined); // <- Updated line
 
   const handleCloseDeleteModal = () => {
-    if (!deleteLoading) setShowDeleteModal(false); // Prevent closing if loading
+    if (!deleteLoading) setShowDeleteModal(false);
   };
 
   const handleShowDeleteModal = (id: number) => {
@@ -44,10 +43,20 @@ const CategoriesList: React.FC = () => {
     setShowDeleteModal(true);
   };
 
-  const handleCloseAddCategoryModal = () =>
+  const handleCloseAddCategoryModal = () => {
     setShowAddCategoryModal(false);
-  const handleShowAddCategoryModal = () =>
+    setCategoryToEdit(undefined); // Clear the edit state when the modal closes
+  };
+
+  const handleShowAddCategoryModal = () => {
     setShowAddCategoryModal(true);
+    setCategoryToEdit(undefined); // Clear the edit state for adding a new category
+  };
+
+  const handleShowEditCategoryModal = (category: Category) => {
+    setCategoryToEdit(category);
+    setShowAddCategoryModal(true);
+  };
 
   const fetchCategories = async () => {
     setLoading(true);
@@ -70,15 +79,15 @@ const CategoriesList: React.FC = () => {
 
   const handleDelete = async () => {
     if (selectedCategoryId !== null) {
-      setDeleteLoading(true); // Start loading
+      setDeleteLoading(true);
       try {
         await deleteCategory(selectedCategoryId);
-        fetchCategories(); // Refresh categories after deletion
+        fetchCategories();
         handleCloseDeleteModal();
       } catch (error) {
         console.error('Failed to delete category', error);
       } finally {
-        setDeleteLoading(false); // Stop loading
+        setDeleteLoading(false);
       }
     }
   };
@@ -155,10 +164,11 @@ const CategoriesList: React.FC = () => {
                             id="dropdown-custom-components"
                           />
                           <Dropdown.Menu>
-                            <Dropdown.Item href="#">
-                              View
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#">
+                            <Dropdown.Item
+                              onClick={() =>
+                                handleShowEditCategoryModal(category)
+                              }
+                            >
                               Edit
                             </Dropdown.Item>
                             <Dropdown.Item
@@ -187,13 +197,14 @@ const CategoriesList: React.FC = () => {
         title="Confirm Deletion"
         handleClose={handleCloseDeleteModal}
         propFunction={handleDelete}
-        loading={deleteLoading} // Pass loading state to disable button during delete
+        loading={deleteLoading}
       />
 
       <AddCategoryModal
         show={showAddCategoryModal}
         handleClose={handleCloseAddCategoryModal}
-        onCategoryAdded={fetchCategories} // Refresh the categories list after adding a category
+        onCategoryAdded={fetchCategories}
+        category={categoryToEdit} // <- This should now work without issue
       />
     </section>
   );

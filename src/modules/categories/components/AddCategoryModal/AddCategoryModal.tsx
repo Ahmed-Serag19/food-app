@@ -1,33 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
-import { createCategory } from '../../../../utils/CategoriesApiFunctions';
+import {
+  createCategory,
+  updateCategory,
+  Category,
+} from '../../../../utils/CategoriesApiFunctions';
 
 interface AddCategoryModalProps {
   show: boolean;
   handleClose: () => void;
-  onCategoryAdded: () => void; // Callback to refresh categories list after adding a category
+  onCategoryAdded: () => void;
+  category?: Category | null;
 }
 
 const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
   show,
   handleClose,
   onCategoryAdded,
+  category = null,
 }) => {
   const [categoryName, setCategoryName] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (category) {
+      setCategoryName(category.name);
+    } else {
+      setCategoryName('');
+    }
+  }, [category]);
 
   const handleSave = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      await createCategory(categoryName);
+      if (category) {
+        await updateCategory(category.id, categoryName);
+      } else {
+        await createCategory(categoryName);
+      }
       onCategoryAdded();
       handleClose();
-      setCategoryName('');
     } catch (err) {
-      setError('Failed to add category. Please try again.');
+      setError('Failed to save category. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -36,7 +53,9 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Add Category</Modal.Title>
+        <Modal.Title>
+          {category ? 'Edit Category' : 'Add Category'}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -62,7 +81,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
           onClick={handleSave}
           disabled={loading || !categoryName.trim()}
         >
-          {loading ? 'Saving...' : 'Save'}
+          {loading ? 'Saving...' : category ? 'Update' : 'Save'}
         </Button>
       </Modal.Footer>
     </Modal>

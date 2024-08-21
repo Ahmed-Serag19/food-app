@@ -190,12 +190,15 @@ const RecipesList: React.FC = () => {
               <Table bordered hover>
                 <thead>
                   <tr>
-                    {headers.map((header, index) => (
-                      <th key={index}>
-                        {header.charAt(0).toUpperCase() +
-                          header.slice(1)}
-                      </th>
-                    ))}
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Creation date</th>
+                    <th>Modification date</th>
+                    <th>Category</th>
+                    <th>Tag</th>
                     <th className="text-center">Actions</th>
                   </tr>
                 </thead>

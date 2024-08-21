@@ -2,13 +2,14 @@ import axios, { AxiosError } from 'axios';
 import api from './api';
 import { toast } from 'react-toastify';
 
-interface Category {
+export interface Category {
   id: number;
   name: string;
   price: string;
   description: string;
   quantity: number;
   category: string;
+  [key: string]: string | number;
 }
 
 interface CreateCategoryResponse {
@@ -107,6 +108,35 @@ export const getCategories =
       throw error;
     }
   };
+
+//////////////////// Update Category Function
+
+export const updateCategory = async (
+  id: number,
+  name: string
+): Promise<void> => {
+  try {
+    const response = await api.put(`/api/v1/Category/${id}`, {
+      name,
+    });
+
+    toast.success('Category updated successfully!', {
+      position: 'top-left',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'dark',
+    });
+
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Failed to update category.');
+    throw error;
+  }
+};
 
 //////////////////// Delete Category Function
 
